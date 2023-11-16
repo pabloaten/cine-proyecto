@@ -1,52 +1,43 @@
 import java.util.concurrent.LinkedBlockingQueue;
 
 class PuestoVentaEntradas implements Runnable {
+    private String nombre;
     private LinkedBlockingQueue<EntradaCine> colaClientes;
     private String[] butacasDisponibles;
 
-    public PuestoVentaEntradas(LinkedBlockingQueue<EntradaCine> colaClientes, String[] butacasDisponibles) {
+    public PuestoVentaEntradas(String nombre, LinkedBlockingQueue<EntradaCine> colaClientes, String[] butacasDisponibles) {
+        this.nombre = nombre;
         this.colaClientes = colaClientes;
         this.butacasDisponibles = butacasDisponibles;
     }
 
     @Override
     public void run() {
-        // Simular clientes haciendo cola para sacar entradas
-        for (int i = 0; i < 10; i++) {
-            // Cada cliente solicita una butaca aleatoria disponible
-            String butacaSolicitada = obtenerButacaDisponible();
-            EntradaCine entradaCliente = new EntradaCine("Spider-Man: No Way Home", "18:00", butacaSolicitada);
+        while (true) {
+            // Cada puesto intenta obtener una entrada de la cola compartida
             try {
-                colaClientes.put(entradaCliente);  // Utilizamos put para encolar en LinkedBlockingQueue
+                EntradaCine entradaCliente = colaClientes.take();  // Utilizamos take para desencolar en LinkedBlockingQueue
+                if (entradaCliente == null) {
+                    // Si la cola está vacía, el puesto termina
+                    break;
+                }
+
+                // Simular un proceso de venta que tarda un tiempo
+                realizarVenta(entradaCliente);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            // Marcar la butaca como ocupada
-            marcarButacaOcupada(butacaSolicitada);
         }
     }
 
-    // Método para obtener una butaca disponible y marcarla como ocupada
-    private synchronized String obtenerButacaDisponible() {
-        for (int i = 0; i < butacasDisponibles.length; i++) {
-            if (butacasDisponibles[i] != null) {
-                String butaca = butacasDisponibles[i];
-                butacasDisponibles[i] = null;
-                return butaca;
-            }
-        }
-        return null;  // En este caso, no hay butacas disponibles
-    }
-
-    // Método para marcar una butaca como ocupada
-    private synchronized void marcarButacaOcupada(String butaca) {
+    // Método para simular un proceso de venta
+    private void realizarVenta(EntradaCine entradaCliente) {
+        System.out.println(nombre + ": Cliente asignado: " + entradaCliente.asiento+"-A LAS "+entradaCliente.hora+"-PELICULA : "+entradaCliente.pelicula);
         // Simular un proceso de venta que tarda un tiempo
         try {
-            Thread.sleep(100);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(Thread.currentThread().getName() + ": Butaca ocupada - " + butaca);
     }
 }

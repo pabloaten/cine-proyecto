@@ -5,10 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        // Puestos de venta de entradas
-        LinkedBlockingQueue<EntradaCine> colaClientesPuesto1 = new LinkedBlockingQueue<>();
-        LinkedBlockingQueue<EntradaCine> colaClientesPuesto2 = new LinkedBlockingQueue<>();
-        LinkedBlockingQueue<EntradaCine> colaClientesPuesto3 = new LinkedBlockingQueue<>();
+        // Puesto de venta de entradas
+        LinkedBlockingQueue<EntradaCine> colaClientes = new LinkedBlockingQueue<>();
 
         // Puestos de venta de entradas compartiendo las butacas disponibles
         String[] butacasDisponibles = new String[30];
@@ -16,10 +14,17 @@ public class Main {
             butacasDisponibles[i] = "Butaca" + (i + 1);
         }
 
+        // Inicializar la cola de clientes
+        for (int i = 0; i < 30; i++) {
+            String butacaSolicitada = butacasDisponibles[i];
+            EntradaCine entradaCliente = new EntradaCine("Spider-Man: No Way Home", "18:00", butacaSolicitada);
+            colaClientes.offer(entradaCliente);  // Utilizamos offer para encolar en LinkedBlockingQueue
+        }
+
         // Crear instancias de los puestos de venta
-        PuestoVentaEntradas puesto1 = new PuestoVentaEntradas(colaClientesPuesto1, butacasDisponibles);
-        PuestoVentaEntradas puesto2 = new PuestoVentaEntradas(colaClientesPuesto2, butacasDisponibles);
-        PuestoVentaEntradas puesto3 = new PuestoVentaEntradas(colaClientesPuesto3, butacasDisponibles);
+        PuestoVentaEntradas puesto1 = new PuestoVentaEntradas("Puesto 1", colaClientes, butacasDisponibles);
+        PuestoVentaEntradas puesto2 = new PuestoVentaEntradas("Puesto 2", colaClientes, butacasDisponibles);
+        PuestoVentaEntradas puesto3 = new PuestoVentaEntradas("Puesto 3", colaClientes, butacasDisponibles);
 
         // Crear ExecutorService para gestionar la ejecución de los hilos
         ExecutorService executorService = Executors.newFixedThreadPool(3);
@@ -38,25 +43,5 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        // Asignar las butacas a los clientes de cada puesto de venta
-        asignarButacas(colaClientesPuesto1);
-        asignarButacas(colaClientesPuesto2);
-        asignarButacas(colaClientesPuesto3);
     }
-
-    // Método para asignar butacas a los clientes
-    private static void asignarButacas(LinkedBlockingQueue<EntradaCine> colaClientes) {
-        while (!colaClientes.isEmpty()) {
-            try {
-                EntradaCine entradaActual = colaClientes.take();  // Utilizamos take para desencolar en LinkedBlockingQueue
-                System.out.println("Cliente asignado: " + entradaActual.asiento);
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }
-
