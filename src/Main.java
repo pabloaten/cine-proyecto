@@ -1,30 +1,41 @@
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.Random;
+import java.util.concurrent.*;
 
 public class Main {
     public static void main(String[] args) {
-        // Puesto de venta de entradas
-        LinkedBlockingQueue<EntradaCine> colaClientes = new LinkedBlockingQueue<>();
+        // Puestos de venta de entradas
+        LinkedBlockingQueue<EntradaCine> colaClientesPuesto1 = new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<EntradaCine> colaClientesPuesto2 = new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<EntradaCine> colaClientesPuesto3 = new LinkedBlockingQueue<>();
 
-        // Puestos de venta de entradas compartiendo las butacas disponibles
-        String[] butacasDisponibles = new String[30];
+        // Butacas disponibles para todas las salas
+        String[] butacasDisponibles = new String[4 * 40];
         for (int i = 0; i < butacasDisponibles.length; i++) {
-            butacasDisponibles[i] = "Butaca" + (i + 1);
+            butacasDisponibles[i] = "Sala" + ((i / 40) + 1) + "-Butaca" + (i % 40 + 1);
         }
 
-        // Inicializar la cola de clientes
-        for (int i = 0; i < 30; i++) {
-            String butacaSolicitada = butacasDisponibles[i];
-            EntradaCine entradaCliente = new EntradaCine("Spider-Man: No Way Home", "18:00", butacaSolicitada);
-            colaClientes.offer(entradaCliente);  // Utilizamos offer para encolar en LinkedBlockingQueue
+        // Inicializar la cola de clientes con entradas para todas las salas y películas
+        String[] peliculas = {"Spider-Man: No Way Home", "The Matrix Resurrections", "Dune", "Inception"};
+        Random random = new Random();
+
+        for (int i = 0; i < 200; i++) {
+            int salaAleatoria = random.nextInt(4) + 1;
+            String butacaSolicitada = butacasDisponibles[i % butacasDisponibles.length];
+            String pelicula = peliculas[i % peliculas.length];
+
+            EntradaCine entradaCliente = new EntradaCine(pelicula, "Sala" + salaAleatoria, "18:00", butacaSolicitada);
+            colaClientesPuesto1.offer(entradaCliente);
+            colaClientesPuesto2.offer(entradaCliente);
+            colaClientesPuesto3.offer(entradaCliente);
         }
 
-        // Crear instancias de los puestos de venta
-        PuestoVentaEntradas puesto1 = new PuestoVentaEntradas("Puesto 1", colaClientes, butacasDisponibles);
-        PuestoVentaEntradas puesto2 = new PuestoVentaEntradas("Puesto 2", colaClientes, butacasDisponibles);
-        PuestoVentaEntradas puesto3 = new PuestoVentaEntradas("Puesto 3", colaClientes, butacasDisponibles);
+        // Crear un semáforo con un permiso para controlar el acceso a la compra de entradas
+        Semaphore semaforo = new Semaphore(1);
+
+        // Crear instancias de los puestos de venta con el semáforo
+        PuestoVentaEntradas puesto1 = new PuestoVentaEntradas("Puesto 1", colaClientesPuesto1, butacasDisponibles, semaforo);
+        PuestoVentaEntradas puesto2 = new PuestoVentaEntradas("Puesto 2", colaClientesPuesto2, butacasDisponibles, semaforo);
+        PuestoVentaEntradas puesto3 = new PuestoVentaEntradas("Puesto 3", colaClientesPuesto3, butacasDisponibles, semaforo);
 
         // Crear ExecutorService para gestionar la ejecución de los hilos
         ExecutorService executorService = Executors.newFixedThreadPool(3);
