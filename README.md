@@ -28,4 +28,8 @@ En este proyecto se intenta simular un cine en la vida real.Hay 3 puestos de ven
 
 *[Conclusión](#conclusión)
 
+## Autores
+
+| Pablo Atenciano| Raul Calero |  Pablo Corral| Sebastián Olea |
+| :---: | :---: | :---: | :---: | 
 
