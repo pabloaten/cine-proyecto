@@ -1,54 +1,50 @@
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.*;
 
 public class Main {
     public static void main(String[] args) {
-        // Puestos de venta de entradas
-        LinkedBlockingQueue<EntradaCine> colaClientesPuesto1 = new LinkedBlockingQueue<>();
-        LinkedBlockingQueue<EntradaCine> colaClientesPuesto2 = new LinkedBlockingQueue<>();
-        LinkedBlockingQueue<EntradaCine> colaClientesPuesto3 = new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<EntradaCine> colaClientes = new LinkedBlockingQueue<>();
+        String[] butacasDisponibles = new String[8 * 40];
+        Set<String> butacasOcupadas = new HashSet<>();
 
-        // Butacas disponibles para todas las salas
-        String[] butacasDisponibles = new String[4 * 40];
-        for (int i = 0; i < butacasDisponibles.length; i++) {
-            butacasDisponibles[i] = "Sala" + ((i / 40) + 1) + "-Butaca" + (i % 40 + 1);
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 40; j++) {
+                butacasDisponibles[i * 40 + j] = "Sala" + (i + 1) + "-Butaca" + (j + 1);
+            }
         }
 
-        // Inicializar la cola de clientes con entradas para todas las salas y películas
-        String[] peliculas = {"Spider-Man: No Way Home", "The Matrix Resurrections", "Dune", "Inception"};
+        String[] peliculas = {"Spider-Man: No Way Home", "The Matrix Resurrections", "Dune", "Inception","Tetanic", "El Padrino", "Openjaime", "NPC"};
+        String[] salas = {"Sala1", "Sala2", "Sala3", "Sala4","Sala5", "Sala6", "Sala7", "Sala8"};
+
         Random random = new Random();
 
-        for (int i = 0; i < 200; i++) {
-            int salaAleatoria = random.nextInt(4) + 1;
-            String butacaSolicitada = butacasDisponibles[i % butacasDisponibles.length];
-            String pelicula = peliculas[i % peliculas.length];
+        for (int i = 0; i < 100; i++) {
+            int salaAleatoria = random.nextInt(8);
+            String salaAsignada = salas[salaAleatoria];
 
-            EntradaCine entradaCliente = new EntradaCine(pelicula, "Sala" + salaAleatoria, "18:00", butacaSolicitada);
-            colaClientesPuesto1.offer(entradaCliente);
-            colaClientesPuesto2.offer(entradaCliente);
-            colaClientesPuesto3.offer(entradaCliente);
+            Cliente cliente = new Cliente(salaAsignada,i);
+            EntradaCine entradaCliente = new EntradaCine(
+                    peliculas[salaAleatoria], salaAsignada, "18:00", null, cliente);
+
+            colaClientes.offer(entradaCliente);
         }
 
-        // Crear un semáforo con un permiso para controlar el acceso a la compra de entradas
         Semaphore semaforo = new Semaphore(1);
 
-        // Crear instancias de los puestos de venta con el semáforo
-        PuestoVentaEntradas puesto1 = new PuestoVentaEntradas("Puesto 1", colaClientesPuesto1, butacasDisponibles, semaforo);
-        PuestoVentaEntradas puesto2 = new PuestoVentaEntradas("Puesto 2", colaClientesPuesto2, butacasDisponibles, semaforo);
-        PuestoVentaEntradas puesto3 = new PuestoVentaEntradas("Puesto 3", colaClientesPuesto3, butacasDisponibles, semaforo);
+        PuestoVentaEntradas puesto1 = new PuestoVentaEntradas("Puesto 1", colaClientes, butacasDisponibles, butacasOcupadas, semaforo);
+        PuestoVentaEntradas puesto2 = new PuestoVentaEntradas("Puesto 2", colaClientes, butacasDisponibles, butacasOcupadas, semaforo);
+        PuestoVentaEntradas puesto3 = new PuestoVentaEntradas("Puesto 3", colaClientes, butacasDisponibles, butacasOcupadas, semaforo);
 
-        // Crear ExecutorService para gestionar la ejecución de los hilos
         ExecutorService executorService = Executors.newFixedThreadPool(3);
 
-        // Iniciar los hilos
         executorService.submit(puesto1);
         executorService.submit(puesto2);
         executorService.submit(puesto3);
 
-        // Apagar el ExecutorService cuando todos los hilos hayan terminado
         executorService.shutdown();
 
-        // Esperar a que todos los hilos finalicen
         try {
             executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException e) {
