@@ -4,32 +4,16 @@ En este proyecto se intenta simular un cine en la vida real.Hay 3 puestos de ven
 
 ##Índice
 
-*[Título e imagen de portada](#Título-e-imagen-de-portada)
+###Tipo de estructura 
+    Para este proyecto hemos usado la blocking queue como estructura de datos principal
 
-*[Insignias](#insignias)
-
-*[Índice](#índice)
-
-*[Descripción del proyecto](#descripción-del-proyecto)
-
-*[Estado del proyecto](#Estado-del-proyecto)
-
-*[Características de la aplicación y demostración](#Características-de-la-aplicación-y-demostración)
-
-*[Acceso al proyecto](#acceso-proyecto)
-
-*[Tecnologías utilizadas](#tecnologías-utilizadas)
-
-*[Personas Contribuyentes](#personas-contribuyentes)
-
-*[Personas-Desarrolladores del Proyecto](#personas-desarrolladores)
-
-* [Licencia](#licencia)
-
-*[Conclusión](#conclusión)
+### Clases del proyecto 
+  
+#### Cliente
+  esta es la clase cliente
 
 ## Autores
 
-| Pablo Atenciano| Raul Calero |  Pablo Corral| Sebastián Olea |
+| Pablo Atenciano| Raúl Calero |  Pablo Corral| Sebastián Olea |
 | :---: | :---: | :---: | :---: | 
 
