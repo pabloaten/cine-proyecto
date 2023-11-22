@@ -26,18 +26,27 @@ La clase EntradaCine es la puerta del cine donde pasarán los clientes.
 
 #### PuestoVentasEntrada 
 La clase PuestoVentasEntrada es la clase que permite la venta de las entradas dentro del cine,implementa runnable,sobreescritura del metodo run,comprobación de butacas disponibles y asignación de butacas
-* Atributos : <br>
-  ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/6fc0bd5d-60ab-4a62-9e03-670a1828fa15)
-<br>
-* Constructor : <br>
- ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/8c411d47-255d-4b74-95ef-f3f8523daf9b)
-<br>
+* Atributos :  <br> ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/6fc0bd5d-60ab-4a62-9e03-670a1828fa15)
+* Constructor: <br>
+  ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/764b8c1e-fdcc-4304-9d9f-1f9525bf531b)
+
 * Métodos :<br>
   asignarButacas(EntradaCine entradaCine)<br>
+  ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/228c2a6f-388d-4765-8b2e-ed351e0b4c16)
+  <br>
+  
   butacaOcupada(String butaca)<br>
+  ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/717b62ca-c4a3-421d-b887-10f4eb7f6363)
+  <br>
   run : <br>
   ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/f69339a9-c102-4339-8b57-8e75eacaa73c)
    <br>
+
+#### Main 
+Es la clase que inicia e instancia el proyecto,creamos unas salas junto con las peliculas que se van a emitir para posteriormente abrir el cine
+
+
+   
 ## Autores
 | Pablo Atenciano| Raúl Calero |  Pablo Corral| Sebastián Olea |
 | :---: | :---: | :---: | :---: | 
