@@ -4,7 +4,7 @@ En este proyecto se intenta simular un cine en la vida real.Hay 3 puestos de ven
 
 
 ### Tipo de estructura 
-Para este proyecto hemos usado la blocking queue como estructura de datos principal
+Para este proyecto hemos usado la linked blocking queue como estructura de datos principal
 
 ### Clases del proyecto 
   
@@ -25,8 +25,19 @@ La clase EntradaCine es la puerta del cine donde pasarán los clientes.
 <br>
 
 #### PuestoVentasEntrada 
-La clase PuestoVentasEntrada
-
+La clase PuestoVentasEntrada es la clase que permite la venta de las entradas dentro del cine,implementa runnable,sobreescritura del metodo run,comprobación de butacas disponibles y asignación de butacas
+* Atributos : <br>
+  ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/6fc0bd5d-60ab-4a62-9e03-670a1828fa15)
+<br>
+* Constructor : <br>
+ ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/8c411d47-255d-4b74-95ef-f3f8523daf9b)
+<br>
+* Métodos :<br>
+  asignarButacas(EntradaCine entradaCine)<br>
+  butacaOcupada(String butaca)<br>
+  run : <br>
+  ![image](https://github.com/pabloaten/cine-proyecto/assets/127136385/f69339a9-c102-4339-8b57-8e75eacaa73c)
+   <br>
 ## Autores
 | Pablo Atenciano| Raúl Calero |  Pablo Corral| Sebastián Olea |
 | :---: | :---: | :---: | :---: | 
