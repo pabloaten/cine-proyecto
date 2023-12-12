@@ -6,6 +6,9 @@ En este proyecto se intenta simular un cine en la vida real.Hay 3 puestos de ven
 ### Tipo de estructura 
 Para este proyecto hemos usado la linked blocking queue como estructura de datos principal
 
+## Caso de Uso
+Los usos de esta estructura principalmente son cuando hay productores que generan datos y consumidores que procesan esos datos, LinkedBlockingQueue proporciona un mecanismo seguro y eficiente para la transferencia de datos entre ellos.
+
 ## Métodos Principales
 
 | Método               | Descripción                                                                                                  |
