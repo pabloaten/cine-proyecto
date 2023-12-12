@@ -11,8 +11,8 @@ Para este proyecto hemos usado la linked blocking queue como estructura de datos
 | Método               | Descripción                                                                                                  |
 |----------------------|--------------------------------------------------------------------------------------------------------------|
 | `put(E elemento)`    | Inserta el elemento especificado al final de la cola, esperando si es necesario hasta que haya espacio disponible. |
-| `take()`             | Recupera y elimina el primer elemento de la cola, esperando si es necesario hasta que haya un elemento disponible. |
-| `size()`             | Retorna el número de elementos presentes en la cola en un momento dado.                                       |
+| `poll()`             | Recupera y quita el encabezado de esta cola, o devuelve si esta cola está vacía. |
+| `offer(E e)`         | Inserta el elemento especificado en la cola de esta cola si es posibilidad de hacerlo inmediatamente sin exceder la capacidad de la cola, volver después de que se haya realizado correctamente y si esta cola está lleno.  |
 
 ### Clases del proyecto 
   
