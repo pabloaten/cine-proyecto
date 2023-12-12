@@ -6,6 +6,14 @@ En este proyecto se intenta simular un cine en la vida real.Hay 3 puestos de ven
 ### Tipo de estructura 
 Para este proyecto hemos usado la linked blocking queue como estructura de datos principal
 
+## Métodos Principales
+
+| Método               | Descripción                                                                                                  |
+|----------------------|--------------------------------------------------------------------------------------------------------------|
+| `put(E elemento)`    | Inserta el elemento especificado al final de la cola, esperando si es necesario hasta que haya espacio disponible. |
+| `take()`             | Recupera y elimina el primer elemento de la cola, esperando si es necesario hasta que haya un elemento disponible. |
+| `size()`             | Retorna el número de elementos presentes en la cola en un momento dado.                                       |
+
 ### Clases del proyecto 
   
 #### Cliente
